@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//////////////////////////////PRE ORDEM//////////////////////////////////
+struct Tree
+{
+  int item;
+  struct Tree* left;
+  struct Tree* right;
+};
+typedef struct Tree tree;
+
+tree* create_empty_tree()
+{
+  return NULL;
+}
+tree* create_binary_tree(int value, tree* for_left, tree* for_right)
+{
+  tree* new_bt = (tree*) malloc(sizeof(tree));
+  new_bt -> item = value;
+  new_bt -> left = for_left;
+  new_bt -> right = for_right;
+  return new_bt;
+}
+tree* add(tree* bt, int value)
+{
+  if(bt == NULL)
+  {
+    bt = create_binary_tree(value, NULL, NULL);
+  }
+  else if(bt -> item > value)
+  {
+    bt -> left = add(bt -> left, value);
+  }
+  else bt -> right = add(bt -> right, value);
+
+  return bt;
+}
+
+void limpa(tree* bt)
+{
+  if(bt -> left != NULL) limpa(bt -> left);
+  if(bt -> right != NULL) limpa(bt -> right);
+  free(bt);
+}
+
+tree* search(tree* bt, int element)
+{
+  if(bt == NULL || bt -> item == element)
+  {
+    return bt;
+  }
+  else if(bt -> item > element)
+  {
+    return search(bt -> left, element);
+  }
+  else
+  {
+    return search(bt -> right, element);
+  }
+}
+int search_pro(tree* bt, int element, int size)
+{
+  if(bt == NULL || bt -> item == element)
+  {
+    return size;
+  }
+  else if(bt -> item > element)
+  {
+    return search_pro(bt -> left, element, size+1);
+  }
+  else
+  {
+    return search_pro(bt -> right, element, size+1);
+  }
+}
+
+int main()
+{
+  tree* new_tre = create_empty_tree();
+  int tree_enter;
+  int number;
+  char test[10];
+  int i, tam, j = 0, whole, k = 0, n;
+
+  puts("Quantos elementos sua arvore tem?");
+  scanf("%d", &tree_enter);
+
+  puts("Elementos da arvore: ");
+  for(i = 0 ; i < tree_enter ; i++)
+  {
+  	scanf("%d", &number);
+    new_tre = add(new_tre, number);
+  }
+  puts("Elemento que voce procura");
+  scanf("%d", &n);
+  
+  tree* busca;
+  int profundidade = 0;
+  
+  busca = search(new_tre, n);
+
+  if(busca != NULL)
+  {
+   printf("ESTA NA ARVORE\n");
+   printf("Profundidade = %d\n", search_pro(new_tre, n, profundidade)); 
+  }
+
+  else printf("NAO ESTA NA ARVORE\n-1\n");
+  limpa(new_tre);
+
+  return 0;
+}
