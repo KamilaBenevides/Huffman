@@ -1,0 +1,11 @@
+dadosComparacoesAvl = scan("AVL.txt",sep = ",")
+dadosComparacoesAbb = scan("ABB.txt",sep = ",")
+numeroSorteado = scan("numSort.txt",sep = ",")
+
+
+
+
+
+par(mfrow=c(2,2))
+plot(col="red",dadosComparacoesAbb,numeroSorteado,main = "ABB", bty="l",tcl=0.3)
+plot(dadosComparacoesAvl,numeroSorteado,main = " AVL", bty="l", tcl=0.3)
